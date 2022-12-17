@@ -1,7 +1,14 @@
 import openai
 
+
+
 # Set your API key
-openai.api_key = "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"
+
+fileObject = open("openai_key.txt", "r")
+api_key = fileObject.read()
+api_key = api_key.replace("\n","")
+
+openai.api_key = api_key
 
 def generate_response(prompt):
   # Use the GPT-3 API to generate a response to the prompt
