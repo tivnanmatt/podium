@@ -69,7 +69,15 @@
         question = document.getElementById("question").value;
 
         // Get the response from the server
-        getTextCompletion(`Generate a response for the question: "${question}" that a Christian pastor or Catholic priest might give. The topic of the response should be "what would jesus do if he was in the situation of the person asking this question?" and include it should include at least one quote from the Bible along with some analysis.`).then(function(responseText) {
+        getTextCompletion(`Generate a wise response for "what would jesus do if he was in 
+                             the situation of the person asking this question?"
+                             For the following question: "${question}" 
+                             Give an answer that a Christian pastor or Catholic priest might give
+                             But do not identify yourself as a pastor or priest
+                             The response should include  at least one quote from the Bible along with some analysis.
+                             It should be a strong specific statement, not something general that can apply to anyone.
+                             
+                             Response: `).then(function(responseText) {
             // Update the response element with Jesus' response
             document.getElementById("response").innerText = `${responseText}`;
             // Show the start over button
