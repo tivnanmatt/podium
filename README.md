@@ -15,7 +15,7 @@ This project consists of a Python script that uses the OpenAI API to generate re
 
 To install the dependencies for this project, run the following command:
 
-pip install openai
+`pip install openai`
 
 
 ## Usage
