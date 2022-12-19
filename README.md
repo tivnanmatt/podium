@@ -1,4 +1,4 @@
-# Podium Text Completion Server
+# Podium AI Text Completion Python Server
 
 This project consists of a Python script that uses the OpenAI API to generate responses to user input. The script starts an HTTP server that listens for POST requests on port 8000. When a POST request is received, the script extracts the "userInput" value from the request body, which is in JSON format, and passes it to the `generate_response` function. This function uses the OpenAI API to generate a response to the user input, and the resulting response is sent back to the client.
 
