@@ -8,8 +8,8 @@ This project consists of a Python script that uses the OpenAI API to generate re
 - `test_text_completion_server.py`: a test script for the project
 - `.gitignore`: a list of files and directories to ignore when committing to Git
 - `html_pages`: a directory containing HTML files for the project
-  - `index.html`: the main HTML file for the project
-  - `tarot.html`: an HTML file for the project
+  - `index.html`: the main HTML file for the project containing a simple AI text completion website.
+  - `tarot.html`: an example HTML file for the project which uses structred prompts to do a tarot reading.
 
 ## Installation
 
