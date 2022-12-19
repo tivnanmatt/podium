@@ -17,20 +17,15 @@ To install the dependencies for this project, run the following command:
 
 `pip install openai`
 
-
 ## Usage
 
 To start the server, run the following command:
 
 `python text_completion_server.py`
 
-Copy code
-
 The server will listen for POST requests on port 8000. To send a request to the server, you can use a tool such as `curl`:
 
 `curl -X POST -H "Content-Type: application/json" -d '{"userInput": "Hello, world!"}' http://localhost:8000`
-
-Copy code
 
 The server will return a response based on the user input.
 
@@ -39,8 +34,6 @@ The server will return a response based on the user input.
 To run the test suite for this project, run the following command:
 
 `python test_text_completion_server.py`
-
-Copy code
 
 The `test_text_completion_server.py` script contains unit tests for the `text_completion_server.py` script. It tests the `generate_response` function to ensure that it returns the expected output for different inputs.
 
