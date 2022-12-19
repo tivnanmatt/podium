@@ -34,11 +34,17 @@
 </head>
 <body>
   <h1>What Would Jesus Do?</h1>
-  <form style="text-align: center; display: flex; justify-content: center;">
+  <form style="text-align: center;">
     <label for="question">Enter your question:</label><br>
     <textarea id="question" name="question" style="height:100px; width: 500px; margin: 0 auto;"></textarea><br>
-    <button type="button" id="submitButton" class="button" style="display: block;" onclick="getResponse()">Submit</button>
+    <div style="display: flex; justify-content: center;">
+      <button type="button" id="submitButton" class="button" style="display: block;" onclick="getResponse()">Submit</button>
+    </div>
   </form>
+  
+  <div style="display: flex; justify-content: center;">
+    <button type="button" id="startOverButton" class="button" style="display: none;" onclick="startOver()">Start Over</button>
+  </div>
 
   <!-- Jesus' response -->
   <p id="response"></p>
