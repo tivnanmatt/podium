@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dummy Website</title>
+</head>
+<body>
+  <h1>Dummy Website</h1>
+  <form>
+    <label for="userInput">Type some text:</label><br>
+    <textarea id="userInput" name="userInput" style="width: 500px; height: 100px; white-space: pre-wrap"></textarea> 
+    <br>
+    <button type="button" onclick="submitForm()">Submit</button>
+  </form> 
+  <p id="output"></p>
+
+  <script>
+  function submitForm() {
+    var userInput = document.getElementById("userInput").value;
+    console.log("Button clicked");
+    // Send a POST request to the Python server through NGINX using fetch
+    fetch("/python", {
+      method: "POST",
+      body: JSON.stringify({ userInput: userInput }),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    }).then(function(response) {
+      console.log("Response received from the server");
+      console.log(response);
+      // When the server responds, get the response and set the output element
+      return response.text();
+    }).then(function(responseText) {
+      console.log("Response text received from the server");
+      console.log(responseText);
+      document.getElementById("output").innerHTML = responseText;
+    });
+  }
+  </script>
+</body>
+</html>

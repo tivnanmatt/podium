@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Tarot Card Reading</title>
+
+  <style>
+    html { 
+	height: 100%;
+    }
+
+    body { 
+	height: 100%;
+	background: linear-gradient(#EACAFC, #521A91);
+    }
+  
+    h1 {
+	font-family: luminari, fantasy;
+	color: #5B2599;
+	font-weight: bold;
+	font-size: 40px;
+	text-align: center;
+	margin-top: 50px;
+    }  
+  
+    .button {
+	background-color: #E3AA00;
+	font-family: optima, sans-serif;
+	border: none;
+	color: #5B2599;
+	font-size: 16px;
+	font: arial;
+	font-weight: bold;
+	text-align: center;
+	border-radius: 73px;
+	padding: 9px;
+	width: 158px;
+	text-align: center;
+	margin-left: auto; 
+	margin-right: auto;
+	margin-top: 10px;
+	margin-bottom: 30px;
+	align: center;
+    }
+  </style>
+
+
+
+
+
+</head>
+<body>
+  <h1>Tarot Card Reading</h1>
+  <form>
+    <label for="topic">Enter the topic for your tarot card reading:</label><br>
+    <textarea id="topic" name="topic" style="height:100px; width: 500px"></textarea><br>
+    <button type="button" id="startButton" class="button" style="display: block;" onclick="startReading()">Draw Cards</button>
+  </form>
+
+  <!-- Tarot card and inversion information -->
+  <p id="cardInfo"></p>
+
+  <!-- Interpretation button -->
+  <button type="button" id="interpretButton" class="button" style="display: none;" onclick="getInterpretation()">Interpret Meaning</button>
+
+  <!-- Tarot card reading -->
+  <p id="reading"></p>
+
+  <!-- Start over button -->
+  <button type="button" id="startOverButton" class="button" style="display: none;" onclick="startOver()">Start Over</button>
+
+  <script>
+  
+  // Variable to store the topic
+  var topic = "";
+
+
+  // Function to start the tarot card reading
+  function startReading() {
+    // Get the value of the topic input field
+    topic = document.getElementById("topic").value;
+
+    // Send a POST request to the Python server to generate a tarot card
+    fetch("/python", {
+      method: "POST",
+      body: JSON.stringify({ userInput: `generate three random tarot cards with uniform probability for the topic "${topic}". Please give the response in a list like this: 'Card 1: XXX, Card 2: YYY, Card 3: ZZZ'. So the response should start with 'Card 1:' Use the text version of numbers like Five instead of 5. Do not repeat the topic in your response.` }),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    }).then(function(response) {
+      console.log("Response received from the server");
+      console.log(response);
+      // When the server responds, get the response and update the card info element
+      return response.text();
+    }).then(function(responseText) {
+      console.log("Response text received from the server");
+      console.log(responseText);
+      // Update the card info element with the card name and inversion information
+      document.getElementById("cardInfo").innerHTML = `${responseText}`;
+      // Show the interpretation button
+      document.getElementById("interpretButton").style.display = "block";
+    });
+  }
+
+  // Function to get the tarot card interpretation
+  function getInterpretation() {
+    // Get the card name from the card info element
+    var cardName = document.getElementById("cardInfo").textContent.split(" (")[0];
+    // Send a POST request to the Python server to generate a tarot card reading for the selected card
+    fetch("/python", {
+      method: "POST",
+      body: JSON.stringify({ userInput: `generate a tarot card reading for the following cards: ${cardName}.First repeat card one, then give analysis, then repeat card 2 and give analysis, and then repeat card 3 and give analysis and finish with a one sentence summary of the combined meaning for the topic "${topic}". Do not use newline characters.`}),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    }).then(function(response) {
+      console.log("Response received from the server");
+      console.log(response);
+      // When the server responds, get the response and update the reading element
+      return response.text();
+    }).then(function(responseText) {
+      console.log("Response text received from the server");
+      console.log(responseText);
+      // Update the reading element with the tarot card reading
+      document.getElementById("reading").innerHTML = `Tarot card reading for the topic "${topic}":<br>${responseText}`;
+      // Show the start over button
+      document.getElementById("startOverButton").style.display = "block";
+    });
+  }
+
+  // Function to get the tarot card interpretation
+  function getInterpretation() {
+    // Get the card name from the card info element
+    var cardName = document.getElementById("cardInfo").textContent.split(" (")[0];
+    // Send a POST request to the Python server to generate a tarot card reading for the selected card
+    fetch("/python", {
+      method: "POST",
+      body: JSON.stringify({ userInput: `generate a tarot card reading for the following cards: ${cardName}.First repeat card one, then give analysis, then repeat card 2 and give analysis, and then repeat card 3 and give analysis and finish with a one sentence summary of the combined meaning for the topic "${topic}". Do not use newline characters.`}),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    }).then(function(response) {
+      console.log("Response received from the server");
+      console.log(response);
+      // When the server responds, get the response and update the reading element
+      return response.text();
+    }).then(function(responseText) {
+      console.log("Response text received from the server");
+      console.log(responseText);
+      // Update the reading element with the tarot card reading
+      document.getElementById("reading").innerHTML = `Tarot card reading for the topic "${topic}":<br>${responseText}`;
+     // Show the start over button
+      document.getElementById("startOverButton").style.display = "block";
+    });
+  }
+
+  // Function to start over
+  function startOver() {
+    // Clear the card info and reading elements
+    document.getElementById("cardInfo").innerHTML = "";
+    document.getElementById("reading").innerHTML = "";
+    // Hide the interpretation button and start over button
+    document.getElementById("interpretButton").style.display = "none";
+    document.getElementById("startOverButton").style.display = "none";
+    // Clear the topic input field
+    document.getElementById("topic").value = "";
+    // Update the topic variable
+    topic = "";
+  }
+  </script>
+
+</body>
+</html>
