@@ -22,13 +22,13 @@ To install the dependencies for this project, run the following command:
 
 To start the server, run the following command:
 
-python text_completion_server.py
+`python text_completion_server.py`
 
 Copy code
 
 The server will listen for POST requests on port 8000. To send a request to the server, you can use a tool such as `curl`:
 
-curl -X POST -H "Content-Type: application/json" -d '{"userInput": "Hello, world!"}' http://localhost:8000
+`curl -X POST -H "Content-Type: application/json" -d '{"userInput": "Hello, world!"}' http://localhost:8000`
 
 Copy code
 
@@ -38,7 +38,7 @@ The server will return a response based on the user input.
 
 To run the test suite for this project, run the following command:
 
-python test_text_completion_server.py
+`python test_text_completion_server.py`
 
 Copy code
 
@@ -52,6 +52,3 @@ If you would like to contribute to this project, please follow these guidelines:
 - Follow the code style used in the project
 - Test your changes thoroughly
 
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
