@@ -51,7 +51,7 @@ class RequestHandler(BaseHTTPRequestHandler):
       prompt = request_json.get("textCompletion", None)
     
       # Generate a response using the generate_response function
-      response = generate_response(prompt,self.temperature)
+      response = generate_response(prompt,temperature)
 
       # Send the response to the client
       self.wfile.write(response.encode())
