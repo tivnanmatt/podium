@@ -2,37 +2,92 @@
 <html>
 <head>
   <title>AI Text Completion</title>
+  <style>
+    /* Add some basic styling to make the page look a little more professional */
+    body {
+      font-family: sans-serif;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    form {
+      width: 500px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    textarea {
+      width: 100%;
+      height: 100px;
+      white-space: pre-wrap;
+      wrap: hard;
+      font-size: 16px;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    label {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    button {
+      font-size: 16px;
+      padding: 10px 20px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      background-color: #eee;
+      cursor: pointer;
+    }
+
+    #output {
+      margin: 30px 0;
+      font-size: 16px;
+      white-space: pre-wrap;
+    }
+  </style>
 </head>
 <body>
   <h1>AI Text Completion</h1>
   <form>
-    <label for="userInput">Type some text:</label><br>
-    <textarea id="userInput" name="userInput" style="width: 500px; height: 100px; white-space: pre-wrap"></textarea> 
+    <label for="textCompletionPromptBox">Type some text:</label>
+    <textarea id="textCompletionPromptBox" name="textCompletionPromptBox"></textarea> 
     <br>
-    <button type="button" onclick="submitForm()">Submit</button>
+    <label for="submitButton">Submit:</label>
+    <button type="button" id="submitButton" onclick="submitForm()">Submit</button>
   </form> 
   <p id="output"></p>
 
   <script>
-  function submitForm() {
-    var userInput = document.getElementById("userInput").value;
-    console.log("Button clicked");
-    // Send a POST request to the Python server through NGINX using fetch
-    fetch("/python", {
+
+  function getTextCompletion(text) {
+    // Send a POST request to the server for text completion
+    return fetch("/podium", {
       method: "POST",
-      body: JSON.stringify({ userInput: userInput }),
+      body: JSON.stringify({ textCompletion: text }),
       headers: {
         "Content-Type": "application/json"
       }
     }).then(function(response) {
-      console.log("Response received from the server");
-      console.log(response);
-      // When the server responds, get the response and set the output element
+      // When the server responds, get the response text
       return response.text();
-    }).then(function(responseText) {
-      console.log("Response text received from the server");
-      console.log(responseText);
-      document.getElementById("output").innerHTML = responseText;
+    });
+  }
+
+  function submitForm() {
+    // Get the value of the text completion prompt input
+    var textCompletionPrompt = document.getElementById("textCompletionPromptBox").value;
+    // Get the text completion response text from the server
+    getTextCompletion(textCompletionPrompt).then(function(responseText) {
+      // Update the output element with the text completion response text
+      document.getElementById("output").innerText = responseText;
     });
   }
   </script>

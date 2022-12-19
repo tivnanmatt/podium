@@ -73,25 +73,27 @@
   // Variable to store the topic
   var topic = "";
 
+  function getTextCompletion(text) {
+    // Send a POST request to the server for text completion
+    return fetch("/podium", {
+      method: "POST",
+      body: JSON.stringify({ textCompletion: text }),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    }).then(function(response) {
+      // When the server responds, get the response text
+      return response.text();
+    });
+  }
 
   // Function to start the tarot card reading
   function startReading() {
     // Get the value of the topic input field
     topic = document.getElementById("topic").value;
 
-    // Send a POST request to the Python server to generate a tarot card
-    fetch("/python", {
-      method: "POST",
-      body: JSON.stringify({ userInput: `generate three random tarot cards with uniform probability for the topic "${topic}". Please give the response in a list like this: 'Card 1: XXX, Card 2: YYY, Card 3: ZZZ'. So the response should start with 'Card 1:' Use the text version of numbers like Five instead of 5. Do not repeat the topic in your response.` }),
-      headers: {
-        "Content-Type": "application/json"
-      }
-    }).then(function(response) {
-      console.log("Response received from the server");
-      console.log(response);
-      // When the server responds, get the response and update the card info element
-      return response.text();
-    }).then(function(responseText) {
+    // Get the tarot card reading response text from the server
+    getTextCompletion(`generate three random tarot cards with uniform probability for the topic "${topic}". Please give the response in a list like this: 'Card 1: XXX, Card 2: YYY, Card 3: ZZZ'. So the response should start with 'Card 1:' Use the text version of numbers like Five instead of 5. Do not repeat the topic in your response.`).then(function(responseText) {
       console.log("Response text received from the server");
       console.log(responseText);
       // Update the card info element with the card name and inversion information
@@ -106,7 +108,7 @@
     // Get the card name from the card info element
     var cardName = document.getElementById("cardInfo").textContent.split(" (")[0];
     // Send a POST request to the Python server to generate a tarot card reading for the selected card
-    fetch("/python", {
+    fetch("/podium", {
       method: "POST",
       body: JSON.stringify({ userInput: `generate a tarot card reading for the following cards: ${cardName}.First repeat card one, then give analysis, then repeat card 2 and give analysis, and then repeat card 3 and give analysis and finish with a one sentence summary of the combined meaning for the topic "${topic}". Do not use newline characters.`}),
       headers: {
@@ -131,24 +133,13 @@
   function getInterpretation() {
     // Get the card name from the card info element
     var cardName = document.getElementById("cardInfo").textContent.split(" (")[0];
-    // Send a POST request to the Python server to generate a tarot card reading for the selected card
-    fetch("/python", {
-      method: "POST",
-      body: JSON.stringify({ userInput: `generate a tarot card reading for the following cards: ${cardName}.First repeat card one, then give analysis, then repeat card 2 and give analysis, and then repeat card 3 and give analysis and finish with a one sentence summary of the combined meaning for the topic "${topic}". Do not use newline characters.`}),
-      headers: {
-        "Content-Type": "application/json"
-      }
-    }).then(function(response) {
-      console.log("Response received from the server");
-      console.log(response);
-      // When the server responds, get the response and update the reading element
-      return response.text();
-    }).then(function(responseText) {
+    // Get the tarot card interpretation response text from the server
+    getTextCompletion(`generate a tarot card reading for the following cards: ${cardName}.First repeat card one, then give analysis, then repeat card 2 and give analysis, and then repeat card 3 and give analysis and finish with a one sentence summary of the combined meaning for the topic "${topic}". Do not use newline characters.`).then(function(responseText) {
       console.log("Response text received from the server");
       console.log(responseText);
       // Update the reading element with the tarot card reading
       document.getElementById("reading").innerHTML = `Tarot card reading for the topic "${topic}":<br>${responseText}`;
-     // Show the start over button
+      // Show the start over button
       document.getElementById("startOverButton").style.display = "block";
     });
   }
